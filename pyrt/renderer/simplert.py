@@ -4,9 +4,11 @@ A simple ray tracer
 Reference implementation...
 """
 
+from .rgbimage import *
 from .renderer import Renderer
 from ..scene import Scene
 from ..math import *
+
 import time
 
 
@@ -48,17 +50,21 @@ class SimpleRT(Renderer):
 
     def _shadow(self, scene: Scene, hitrecord: HitRecord) -> tuple:
         # is hitpoint in shadow ?
-        fs = 1.0
+        fs = 0.0
         local_num_shadow_rays = 0
         numshadow = 0
         for light in scene.lights:
             shadowray = Ray(hitrecord.point, light.position - hitrecord.point)
+            fs += light.intensity(shadowray) 
+
             local_num_shadow_rays += 1
             for testelement in scene.nodes:
                 if testelement != hitrecord.obj:  # avoid self-intersection
                     if testelement.hitShadow(shadowray):
                         numshadow += 1
                         break
+
+        fs = np.clip(fs, 0, 1)
         for i in range(numshadow):
             fs /= 4.
 
@@ -80,7 +86,7 @@ class SimpleRT(Renderer):
         else:
             return r,g,b,None,None
 
-    def render(self, scene: Scene) -> list:
+    def render(self, scene: Scene) -> RGBImage:
         if not scene.camera:
             print("Warning: Can't render: there is no (active) camera in the scene!")
             return None
@@ -94,7 +100,8 @@ class SimpleRT(Renderer):
         w = scene.camera.width
         h = scene.camera.height
 
-        image = []
+        image = RGBImage(w,h)
+
         for y in range(0, h):
             for x in range(0, w):
                 ray = scene.camera.primaryRay(x, y)
@@ -113,7 +120,8 @@ class SimpleRT(Renderer):
                         if refray is None:
                             break
 
-                image.append((r, g, b))
+                image.drawPixelFast8(x, y, r, g, b)
+
 
         time_end = time.time()
         print("# RENDER STATISTICS" + 31 * "#")

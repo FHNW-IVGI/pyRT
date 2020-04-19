@@ -7,4 +7,8 @@ __pycache__/
 dist/
 build/
 jupyter/.ipynb_checkpoints/
+.ipynb_checkpoints/
 jupyter/rendering.png
+.DS_Store
+
+earthquakes.geojson

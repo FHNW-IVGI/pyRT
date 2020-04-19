@@ -32,7 +32,7 @@ There is no order in which the classes are implemented, some things are even dev
 - [X] Base Class
 - [X] Point Light
 - [ ] Directional Light
-- [ ] Spot Light
+- [X] Spot Light
 - [ ] Area Light
 - [ ] Ambient Occlusion
 
@@ -41,9 +41,19 @@ There is no order in which the classes are implemented, some things are even dev
 - [X] Base Class
 - [ ] RayTester
 - [X] SimpleRT
+- [ ] RGBImage
+  - [X] Draw Lines
+  - [X] Draw Circles / Filled Circles
+  - [ ] Blit images
+  - [ ] Draw Polygons / Filled Polygons
+  - [ ] Draw Text
 
 ### Importer / Exporter
 
 - [ ] Wavefront obj importer
 - [ ] Wavefront obj exporter
 - [ ] Three.js exporter
+
+### Jupyter Lab
+
+- [X] Better integration, single window
